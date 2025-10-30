@@ -66,6 +66,4 @@ streamlit run app.py
 
 **Vishal Gupta** – Data Science Enthusiast & ML Developer  
 
-- [GitHub](https://github.com/vishalgupta-git)  
-- [LinkedIn](https://www.linkedin.com/in/yourprofile)  
-
+- [GitHub](https://github.com/vishalgupta-git) 
