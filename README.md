@@ -46,7 +46,7 @@ Access the app online on Streamlit Cloud: [Churn Prediction App](https://telco-c
 
 1. Clone the repo:
 ```bash
-git clone https://github.com/yourusername/telecom-churn-app.git
+git clone https://github.com/vishalgupta-git/telco-customer-churn-prediction.git
 cd telecom-churn-app
 ```
 
