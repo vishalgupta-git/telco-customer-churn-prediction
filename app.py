@@ -3,10 +3,10 @@ import pandas as pd
 import joblib
 
 
-with open("./bin/label_encoders.pkl", "rb") as f:
+with open("./models/label_encoders.pkl", "rb") as f:
     label_encoders = joblib.load(f)
 
-with open("./bin/gradient_boosting_model.pkl", "rb") as f:
+with open("./models/gradient_boosting_model.pkl", "rb") as f:
     model = joblib.load(f)
 
 

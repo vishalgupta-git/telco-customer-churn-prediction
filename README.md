@@ -7,7 +7,8 @@
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-Gradient%20Boosting-F7931E?logo=scikitlearn&logoColor=white)
 ![Pandas](https://img.shields.io/badge/Pandas-EDA-150458?logo=pandas&logoColor=white)
 ![XGBoost](https://img.shields.io/badge/XGBoost-Tested-EB4C42)
-![License](https://img.shields.io/badge/Model%20AUC-0.84-success)
+![Model AUC](https://img.shields.io/badge/Model%20AUC-0.84-success)
+![License](https://img.shields.io/badge/License-MIT-yellow)
 
 **An end-to-end machine learning project that predicts telecom customer churn — from EDA to a deployed interactive web app.**
 
@@ -91,7 +92,7 @@ SVM                  ██████████████████░�
 
 | Customer Input Form | Prediction Result |
 |:---:|:---:|
-| ![Input form](./bin/s1.png) | ![Prediction result](./bin/s2.png) |
+| ![Input form](./assets/s1.png) | ![Prediction result](./assets/s2.png) |
 
 ---
 
@@ -112,11 +113,13 @@ telco-customer-churn-prediction/
 ├── app.py                          # Streamlit web app
 ├── notebook.ipynb                  # EDA → preprocessing → model training
 ├── requirements.txt                # Dependencies
+├── LICENSE                         # MIT license
 ├── datasets/
 │   └── WA_Fn-UseC_-Telco-Customer-Churn.csv
-└── bin/
-    ├── gradient_boosting_model.pkl # Trained final model
-    ├── label_encoders.pkl          # Saved categorical encoders
+├── models/
+│   ├── gradient_boosting_model.pkl # Trained final model
+│   └── label_encoders.pkl          # Saved categorical encoders
+└── assets/
     ├── s1.png                      # App screenshots
     └── s2.png
 ```
