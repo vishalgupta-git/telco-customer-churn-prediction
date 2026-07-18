@@ -3,10 +3,7 @@ import pandas as pd
 import joblib
 
 
-with open("./models/label_encoders.pkl", "rb") as f:
-    label_encoders = joblib.load(f)
-
-with open("./models/gradient_boosting_model.pkl", "rb") as f:
+with open("./models/churn_pipeline.pkl", "rb") as f:
     model = joblib.load(f)
 
 
@@ -104,12 +101,7 @@ if submitted:
 
     df = pd.DataFrame([input_data])
 
-    # Encode categorical columns
-    for col, encoder in label_encoders.items():
-        if col in df.columns:
-            df[col] = encoder.transform(df[col])
-
-    # Prediction
+    # The pipeline handles all preprocessing (scaling + encoding) internally
     pred = model.predict(df)[0]
     proba = model.predict_proba(df)[0][1] if hasattr(model, "predict_proba") else None
 
@@ -124,7 +116,7 @@ if submitted:
     #     if proba is not None:
     #         st.metric("Churn Probability", f"{proba * 100:.2f}%")
 
-    with st.expander("📋 Encoded Input Data"):
+    with st.expander("📋 Input Data"):
         st.dataframe(df.T)
 
     st.balloons()

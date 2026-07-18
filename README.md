@@ -7,7 +7,7 @@
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-Gradient%20Boosting-F7931E?logo=scikitlearn&logoColor=white)
 ![Pandas](https://img.shields.io/badge/Pandas-EDA-150458?logo=pandas&logoColor=white)
 ![XGBoost](https://img.shields.io/badge/XGBoost-Tested-EB4C42)
-![Model AUC](https://img.shields.io/badge/Model%20AUC-0.84-success)
+![Model AUC](https://img.shields.io/badge/Model%20AUC-0.85-success)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
 **An end-to-end machine learning project that predicts telecom customer churn — from EDA to a deployed interactive web app.**
@@ -25,7 +25,7 @@ Customer churn is a major challenge for telecom companies, directly impacting re
 **What's inside:**
 
 - 📊 **EDA & Cleaning** — distributions, churn drivers, fixing `TotalCharges` (stored as text with blanks → numeric with mean imputation)
-- 🔧 **Feature Engineering** — square-root transform to reduce skew, standard scaling, label encoding (encoders saved for reuse)
+- 🔧 **Feature Engineering** — square-root transform to reduce skew, standard scaling, ordinal encoding — all bundled in a single sklearn `Pipeline` so the app predicts on raw inputs
 - ⚖️ **Class Imbalance Handling** — SMOTE oversampling on the training set
 - 🤖 **7 Models Benchmarked** — Logistic Regression, Decision Tree, Random Forest, Gradient Boosting, XGBoost, KNN, SVM
 - 🎯 **Hyperparameter Tuning** — GridSearchCV (5-fold, F1-optimized) on the winning Gradient Boosting model
@@ -43,7 +43,7 @@ flowchart LR
     D --> E[⚖️ SMOTE<br/>balance classes]
     E --> F[🤖 Train 7 models<br/>compare metrics]
     F --> G[🎯 GridSearchCV<br/>Gradient Boosting]
-    G --> H[💾 Export model<br/>+ encoders .pkl]
+    G --> H[💾 Export unified<br/>pipeline .pkl]
     H --> I[🖥️ Streamlit App<br/>real-time prediction]
 ```
 
@@ -75,16 +75,18 @@ KNN                  ███████████████░░░░�
 SVM                  ██████████████████░░  0.64
 ```
 
-### 🏆 Final Model — Tuned Gradient Boosting
+### 🏆 Final Model — Tuned Gradient Boosting Pipeline
+
+The deployed model is a single **imblearn `Pipeline`** — `ColumnTransformer` (impute + sqrt + scale numerics, ordinal-encode categoricals) → SMOTE (fit-time only) → tuned `GradientBoostingClassifier` — so preprocessing is baked in and the app predicts directly on raw inputs.
 
 | | |
 |---|---|
-| **ROC AUC** | **0.84** |
-| **Test Accuracy** | 0.78 |
-| **5-fold CV F1** | 0.826 |
+| **ROC AUC** | **0.85** |
+| **Test Accuracy** | 0.81 |
+| **Precision / Recall (Churn)** | 0.65 / 0.63 |
 | **Best Params** | `learning_rate=0.05`, `max_depth=7`, `n_estimators=200`, `subsample=0.7`, `min_samples_split=2` |
 
-> An AUC of 0.84 means the model correctly ranks a random churner above a random non-churner ~84% of the time — significantly better than the 0.5 random baseline. Recall was prioritized so fewer at-risk customers slip through undetected.
+> An AUC of 0.85 means the model correctly ranks a random churner above a random non-churner ~85% of the time — significantly better than the 0.5 random baseline. Fitting all preprocessing inside the pipeline (rather than before the train/test split) also eliminates data leakage, so these numbers reflect true generalization.
 
 ---
 
@@ -101,7 +103,7 @@ SVM                  ██████████████████░�
 - **Interactive Input Widgets** — dropdowns, sliders, toggles, and radio buttons for all 19 customer attributes
 - **Real-time Prediction** — instant churn verdict on submit 🟢/🔴
 - **Grouped Sections** — profile, family, services, and billing organized in clean expandable panels
-- **Transparent Inputs** — view the encoded feature vector fed to the model
+- **Transparent Inputs** — view the exact input row fed to the pipeline
 - **Deployed on Streamlit Cloud** — no setup needed to try it
 
 ---
@@ -117,8 +119,7 @@ telco-customer-churn-prediction/
 ├── datasets/
 │   └── WA_Fn-UseC_-Telco-Customer-Churn.csv
 ├── models/
-│   ├── gradient_boosting_model.pkl # Trained final model
-│   └── label_encoders.pkl          # Saved categorical encoders
+│   └── churn_pipeline.pkl          # Preprocessing + SMOTE + tuned model, one artifact
 └── assets/
     ├── s1.png                      # App screenshots
     └── s2.png
