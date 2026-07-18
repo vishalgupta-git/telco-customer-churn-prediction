@@ -11,7 +11,7 @@ st.set_page_config(page_title="Customer Churn Predictor", layout="centered", pag
 
 st.image(
     "https://images.unsplash.com/photo-1525182008055-f88b95ff7980",
-    use_container_width=True
+    width="stretch"
 )
 st.title("📞 Interactive Telecom Customer Churn Prediction")
 
@@ -71,7 +71,7 @@ with st.form("churn_form"):
         with c2:
             totalcharges = st.number_input("Total Charges ($)", min_value=0.0, max_value=10000.0, value=2500.0, step=10.0)
 
-    submitted = st.form_submit_button("🚀 Predict Churn", use_container_width=True)
+    submitted = st.form_submit_button("🚀 Predict Churn", width="stretch")
 
 # -------------------------
 # Prediction
@@ -117,6 +117,8 @@ if submitted:
     #         st.metric("Churn Probability", f"{proba * 100:.2f}%")
 
     with st.expander("📋 Input Data"):
-        st.dataframe(df.T)
+        # astype(str): transposed row mixes strings and numbers in one column,
+        # which Arrow can't serialize
+        st.dataframe(df.T.astype(str))
 
     st.balloons()

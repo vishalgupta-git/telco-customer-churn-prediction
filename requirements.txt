@@ -4,7 +4,7 @@ pandas
 numpy
 matplotlib
 seaborn
-scikit-learn
-imblearn
+scikit-learn==1.9.0
+imbalanced-learn==0.14.2
 xgboost
 streamlit
